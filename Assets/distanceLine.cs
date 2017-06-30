@@ -1,31 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class distanceLine : MonoBehaviour {
+public class distanceLine : AAREventReceiver {
 
 	LineRenderer line;
-	ARMarker marker1;
-	ARMarker marker2;
+	ARTrackable marker1;
+	ARTrackable marker2;
 	public GameObject eventReceiver;
 	float alpha =1;
 	public float fadingSpeed = 0.8f;
 	public string lineTag;
-	public string marker1Tag;
+    public string marker1Tag;
 	public string marker2Tag;
 
 
 	// Use this for initialization
 	void Start () {
 		line = GameObject.FindGameObjectWithTag (lineTag).GetComponent<LineRenderer>();
+
 		//Color color = new Color(1f,1f,1f,1f);
 		//line.SetColors (color,color);
 		//line.material = new Material(Shader.Find("Particles/Additive"));
 		line.SetWidth(0.0f, 0.0f);
 	}
 
-	void OnMarkerFound(ARMarker marker)
+    override public void OnMarkerFound(ARTrackable marker)
 	{
-		if (marker.Tag.Equals(marker1Tag)) {
+        if (marker.trackableTag.Equals(marker1Tag)) {
 			marker1 = marker;
 		} else {
 			marker2 = marker;
@@ -33,8 +34,8 @@ public class distanceLine : MonoBehaviour {
 		drawLine (marker);
 	}
 
-	void OnMarkerLost(ARMarker marker){
-		if (marker.Tag.Equals(marker1Tag)) {
+    override public void OnMarkerLost(ARTrackable marker){
+        if (marker.trackableTag.Equals(marker1Tag)) {
 			marker1 = null;
 		} else {
 			marker2 = null;
@@ -42,7 +43,7 @@ public class distanceLine : MonoBehaviour {
 		line.SetWidth (0f, 0f);
 	}
 
-	void OnMarkerTracked(ARMarker marker){
+	override public void OnMarkerTracked(ARTrackable marker){
 
 		drawLine (marker);
 
@@ -60,13 +61,13 @@ public class distanceLine : MonoBehaviour {
 		alpha = alpha - Time.deltaTime * fadingSpeed;
 	}
 
-	private void drawLine(ARMarker marker){
+	private void drawLine(ARTrackable marker){
 		//Make sure that the tracked marker is one of the markers we are interested in and that we have the other one already loaded
-		if (marker1 != null && marker2 != null && (marker.Tag.Equals (marker1Tag) || marker.Tag.Equals (marker2Tag))) {
-			Vector3 startPosition = marker1.TrackedObject.transform.position;
+        if (marker1 != null && marker2 != null && (marker.trackableTag.Equals (marker1Tag) || marker.trackableTag.Equals (marker2Tag))) {
+			Vector3 startPosition = marker1.transform.position;
 			line.SetPosition (0, startPosition);
 
-			Vector3	targetPosition = marker2.TrackedObject.transform.position;
+			Vector3	targetPosition = marker2.transform.position;
 			line.SetPosition (1, targetPosition);
 			line.SetWidth (0.01f, 0.01f);
             float distance = Vector3.Distance (targetPosition, startPosition);
