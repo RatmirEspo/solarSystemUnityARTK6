@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class rotateAroundObject : MonoBehaviour {
-	Vector3 rotationMask = new Vector3(0, 0, 1f);
+	Vector3 rotationMask = new Vector3(0f, 0f, 1f);
 	public float rotationSpeed = 15f;
 	private float distance = 0;
 	public GameObject eventReceiver;
@@ -38,10 +38,11 @@ public class rotateAroundObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rotateObject = GameObject.FindWithTag(rotationObject);
-		if (rotateObject != null) {
-			Transform center = rotateObject.transform;
-			transform.position = (transform.position - center.position).normalized * radius + center.position;
-		}
+//		if (rotateObject != null) {
+//			Transform center = rotateObject.transform;
+//            Debug.LogWarning ("RotateObject.transform" + center.position);
+//			transform.position = (transform.position - center.position).normalized * radius + center.position;
+//		}
 	}
 
 	// Update is called once per frame
