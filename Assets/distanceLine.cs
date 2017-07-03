@@ -18,9 +18,9 @@ public class distanceLine : AAREventReceiver {
 	void Start () {
 		line = GameObject.FindGameObjectWithTag (lineTag).GetComponent<LineRenderer>();
 
-		//Color color = new Color(1f,1f,1f,1f);
-		//line.SetColors (color,color);
-		//line.material = new Material(Shader.Find("Particles/Additive"));
+//		Color color = new Color(1f,1f,1f,1f);
+//		line.SetColors (color,color);
+//		line.material = new Material(Shader.Find("Particles/Additive"));
 		line.SetWidth(0.0f, 0.0f);
 	}
 
